@@ -15,4 +15,6 @@
 >```
 
 ##  1.4 Demo演示
-![步骤一]([demo1.png (568×729) (raw.githubusercontent.com)](https://raw.githubusercontent.com/hanjunjun/BootUpCard/master/Document/demo1.png))
+
+![](https://raw.githubusercontent.com/hanjunjun/BootUpCard/master/Document/demo1.png)
+
