@@ -15,4 +15,4 @@
 >```
 
 ##  1.4 Demo演示
-![步骤一](https://raw.githubusercontent.com/HanJunJun/BugReport/master/Document/images/122.png)
+![步骤一]([demo1.png (568×729) (raw.githubusercontent.com)](https://raw.githubusercontent.com/hanjunjun/BootUpCard/master/Document/demo1.png))
