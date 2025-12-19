@@ -32,6 +32,7 @@ extern u8 RX_num;				 //接收计数变量
 //esp8266工作模式  1:station 2:ap 3:ap+station
 //u8 code esp_at[] = "AT\r\n";                  // 握手连接指令，返回"OK"
 //u8 code esp_cwmode[] = "AT+CWMODE=2\r\n";     // 设置ESP8266的工作模式3 AP+Station，返回"OK"或者"no change" 
+u8 code remote_ip[] = "AT+CIPSTART=\"TCP\",\"42.192.134.245\",8800\r\n";
 u8 code esp_cifsr[] = "AT+CIPAPMAC?\r\n";// "AT+CWLIF\r\n";//"AT+CIFSR\r\n";         // 本机IP地址查询指令
 //u8 code esp_cipsend[] = "AT+CIPSEND=3\r\n";   // 设置发送数据长度
 //u8 code esp_test[] = "hjj\r\n";   			//  数据内容
@@ -508,7 +509,8 @@ retryConnect:
 	//配置连接阿里云服务器
 	while (1)
 	{
-		Uart2SendStr("AT+CIPSTART=\"TCP\",\"112.74.51.95\",8800\r\n");	   //wifi模块配置 服务器 IP 和端口
+		ConsoleLog(x, &y, remote_ip, GREEN, BLACK);
+		Uart2SendStr(remote_ip);	   //wifi模块配置 服务器 IP 和端口
 		delay1ms(2000);
 		if (StrContains(RX_buffer, "OK"))
 		{
@@ -581,25 +583,25 @@ void InitESP8266ToStationMode()
 	//连接wifi和远程阿里云服务器
 	RetryConnectServer();
 	//查询模块ip
-	while (1)
-	{
-		delay1ms(200);
-		Uart2SendStr(esp_cifsr);	   //串口2查询wifi模块 当前ip地址 
-		delay1ms(2000);
-		if (StrContains(RX_buffer, "OK"))
-		{
-			ConsoleLog(x, &y, "BootUpCard current IP is:", BLUE, BLACK);
-			ConsoleLog(x, &y, RX_buffer, GREEN, BLACK);
-			ClearRxBuffer();
-			delay1ms(1000);
-			break;
-		}
-		else
-		{
-			ConsoleLog(x, &y, "Query IP Error!", RED, BLACK);
-		}
-		delay1ms(1000);
-	}
+//	while (1)
+//	{
+//		delay1ms(200);
+//		Uart2SendStr(esp_cifsr);	   //串口2查询wifi模块 当前ip地址 
+//		delay1ms(2000);
+//		if (StrContains(RX_buffer, "OK"))
+//		{
+//			ConsoleLog(x, &y, "BootUpCard current IP is:", BLUE, BLACK);
+//			ConsoleLog(x, &y, RX_buffer, GREEN, BLACK);
+//			ClearRxBuffer();
+//			delay1ms(1000);
+//			break;
+//		}
+//		else
+//		{
+//			ConsoleLog(x, &y, "Query IP Error!", RED, BLACK);
+//		}
+//		delay1ms(1000);
+//	}
 }
 
 //const char s[2] = ",";
@@ -857,17 +859,32 @@ void main()
 			}
 		}
 		//接收服务端发来的数据
-		ConsoleLog(x, &y, "Receive data:", GREEN, BLACK);
-		ConsoleLog(x, &y, RX_buffer, GREEN, BLACK);
+		//ConsoleLog(x, &y, "Receive data:", GREEN, BLACK);
+		//ConsoleLog(x, &y, RX_buffer, GREEN, BLACK);
 		if (StrContains(RX_buffer, "+IPD,1:A"))
 		{
 			
-			ConsoleLog(x, &y, "Boot up your computer!", GREEN, BLACK);
+			//ConsoleLog(x, &y, "Boot up your computer!", GREEN, BLACK);
+			ConsoleLog(x, &y, "Received data....", GREEN, BLACK);
 			ledInit = !ledInit;
 			ledNet = !ledNet;
+			delay1ms(50);
+			ledInit = !ledInit;
+			ledNet = !ledNet;
+			delay1ms(50);
+			ledInit = !ledInit;
+			ledNet = !ledNet;
+			delay1ms(50);
+			ledInit = !ledInit;
+			ledNet = !ledNet;
+			delay1ms(50);
+			ledInit = !ledInit;
+			ledNet = !ledNet;
+			delay1ms(50);
 			//开机或关机
 			bootUpComputer = 0;
-			delay1ms(1000);
+			//delay1ms(1000);
+			delay1ms(100);
 			bootUpComputer = 1;
 			Beep();
 		}
@@ -885,7 +902,7 @@ void main()
 		}
 		else
 		{
-			ConsoleLog(x, &y, "No matching commands were found!", GREEN, BLACK);
+			//ConsoleLog(x, &y, "No matching commands were found!", GREEN, BLACK);
 		}
 		POINT_COLOR = BLUE;
 		//清空缓存
@@ -911,7 +928,7 @@ void main()
 			//清空缓存
 			ClearRxBuffer();
 		}
-		delay1ms(1000);
+		delay1ms(400);
 		timeCount++;
 	}
 }
